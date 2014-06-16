@@ -4,23 +4,7 @@ import (
 	"math"
 )
 
-type distanceMatch struct {
-	Distance float64
-	Pos      int
-}
-
-type distanceSorter []distanceMatch
-
-func (ds distanceSorter) Len() int {
-	return len(ds)
-}
-func (ds distanceSorter) Swap(i, j int) {
-	ds[i], ds[j] = ds[j], ds[i]
-}
-func (ds distanceSorter) Less(i, j int) bool {
-	return ds[i].Distance < ds[j].Distance
-}
-
+// Distance determines closeness of two RGB
 func Distance(rgb1, rgb2 RGB) float64 {
 	var (
 		sum  float64
@@ -41,4 +25,21 @@ func Distance(rgb1, rgb2 RGB) float64 {
 		sum += math.Pow((a - b), 2)
 	}
 	return sum
+}
+
+type distanceMatch struct {
+	Distance float64
+	Pos      int
+}
+
+type distanceSorter []distanceMatch
+
+func (ds distanceSorter) Len() int {
+	return len(ds)
+}
+func (ds distanceSorter) Swap(i, j int) {
+	ds[i], ds[j] = ds[j], ds[i]
+}
+func (ds distanceSorter) Less(i, j int) bool {
+	return ds[i].Distance < ds[j].Distance
 }

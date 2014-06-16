@@ -8,6 +8,7 @@ import (
 	"sort"
 )
 
+// Writer does the ANSI wrapping of rainbow gradients
 type Writer struct {
 	Writer    io.Writer
 	Colors    int
@@ -19,7 +20,7 @@ type Writer struct {
 func (lw *Writer) Write(p []byte) (int, error) {
 	var buf = []byte{}
 	if bytes.Contains(p, byteNewLine) {
-		lw.OurSpread += 1
+		lw.OurSpread++
 	}
 	// each byte
 	for i, b := range p {
@@ -44,7 +45,7 @@ func (lw *Writer) getRGB(offset int) RGB {
 func (lw *Writer) getAnsiColor(rgb RGB) []byte {
 	if lw.Colors == 8 || lw.Colors == 16 {
 		matches := []distanceMatch{}
-		for i, c := range COLOR_ANSI[:lw.Colors] {
+		for i, c := range ANSIColor[:lw.Colors] {
 			d := Distance(c, rgb)
 			matches = append(matches, distanceMatch{d, i})
 		}
@@ -108,7 +109,8 @@ var (
 	byteAnsiWrapSuf = []byte("m")
 )
 
-var COLOR_ANSI = []RGB{
+// ANSIColor is the color sets for 8 and 16 color terminals
+var ANSIColor = []RGB{
 	{0x00, 0x00, 0x00}, {0xcd, 0x00, 0x00},
 	{0x00, 0xcd, 0x00}, {0xcd, 0xcd, 0x00},
 	{0x00, 0x00, 0xee}, {0xcd, 0x00, 0xcd},

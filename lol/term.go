@@ -7,13 +7,16 @@ import (
 	"strings"
 )
 
-var ASCII_CLEAR = "\x1b[0m"
+// ASCIIClear is the ASCII needed to reset the color settings
+var ASCIIClear = "\x1b[0m"
 
+// AnsiClear writes the needed reset for the color settings
 func AnsiClear(out io.Writer) error {
-	_, err := fmt.Fprintf(out, "%s", ASCII_CLEAR)
+	_, err := fmt.Fprintf(out, "%s", ASCIIClear)
 	return err
 }
 
+// DetectTermColor is the "Poor-mans color mode detection."
 func DetectTermColor() int {
 	if len(os.Getenv("ANSICON")) > 0 {
 		return 16
